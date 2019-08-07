@@ -1,0 +1,23 @@
+
+out/
+
+#Gradle files
+.gradle/
+build/
+
+#local configuration
+local.properties
+
+#Log file
+*.log
+
+#Android studio
+.navigation/
+captures/
+
+#IntelliJ
+*.iml
+.idea/
+
+#Keystore
+*.jks
