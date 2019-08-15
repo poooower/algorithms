@@ -144,12 +144,28 @@ class BST<Key : Comparable<Key>, Value> : AbsST<Key, Value>() {
             ret > 0 -> node.left = delete(node.left, key)
             ret < 0 -> node.right = delete(node.right, key)
             else -> {
-                if (node.left == null) return node.right
-                if (node.right == null) return node.left
-                val tmp = node
-
+                node.left ?: return node.right
+                val right = node.right ?: return node.left
+                val min = getMin(right)
+                min.left = node.left
+                min.right = deleteMin(node.right)
+                return min
             }
         }
+        return node
+    }
+
+    private fun deleteMin(node: Node?): Node? {
+        node ?: return null
+        node.left ?: return node.right
+        node.left = deleteMin(node.left)
+        node.size = (node.left?.size ?: 0) + (node.right?.size ?: 0) + 1
+        return node
+    }
+
+    private fun getMin(node: Node): Node {
+        val left = node.left ?: return node
+        return getMin(left)
     }
 
     override fun toString(): String {
@@ -176,8 +192,12 @@ fun main() {
     for (i in 0 until 10) {
         st.put("key_$i", Random.nextInt(0, 1000))
     }
-    println(st.toString())
+    println(st)
 
 
-    println(st.get("key_5"))
+    st.delete("key_3")
+
+    println(st)
+
+
 }
